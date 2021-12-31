@@ -19,7 +19,6 @@ export default function handler(req, res) {
     const filteredCities = cities.filter(
       (city) => city.countryId === +countryId
     );
-
     return res.status(200).json(filteredCities);
   }
 

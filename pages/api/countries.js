@@ -13,7 +13,6 @@ export default function handler(req, res) {
     const filteredCountries = countries.filter(
       (country) => country.regionId === +regionId
     );
-
     return res.status(200).json(filteredCountries);
   }
 

@@ -13,7 +13,6 @@ function useRegions() {
     'regions',
     async () => {
       const { data } = await axios.get('/api/regions');
-
       return data;
     },
     { staleTime: STALE_TIME }
@@ -25,7 +24,6 @@ function useCountries(regionId) {
     ['countries', regionId],
     async () => {
       const { data } = await axios.get(`/api/countries?regionId=${regionId}`);
-
       return data;
     },
     { staleTime: STALE_TIME }
@@ -37,7 +35,6 @@ function useCities(countryId) {
     ['cities', countryId],
     async () => {
       const { data } = await axios.get(`/api/cities?countryId=${countryId}`);
-
       return data;
     },
     { staleTime: STALE_TIME }
