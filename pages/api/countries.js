@@ -15,6 +15,5 @@ export default function handler(req, res) {
     );
     return res.status(200).json(filteredCountries);
   }
-
   return res.status(405).end();
 }
