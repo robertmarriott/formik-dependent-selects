@@ -15,11 +15,10 @@ export default function FormikDependentSelectsState({
     (country) => country.id === countryId
   );
 
-  const [regionItems, setRegionItems] = useState(regions);
-  const [countryItems, setCountryItems] = useState(
+  const [filteredCountries, setFilteredCountries] = useState(
     countries.filter((country) => country.regionId === regionId)
   );
-  const [cityItems, setCityItems] = useState(
+  const [filteredCities, setFilteredCities] = useState(
     cities.filter((city) => city.countryId === countryId)
   );
 
@@ -30,7 +29,8 @@ export default function FormikDependentSelectsState({
   };
 
   function handleSubmit(values, { setSubmitting }) {
-    alert(JSON.stringify(values));
+    const { regionId, countryId, ...finalValues } = values; // We can safely discard regionId and countryId
+    alert(JSON.stringify(finalValues));
     setSubmitting(false);
   }
 
@@ -40,25 +40,27 @@ export default function FormikDependentSelectsState({
         {({ setFieldValue }) => {
           function resetCountries(regionId) {
             setFieldValue('countryId', 0);
-            setCountryItems(
+            setFilteredCountries(
               countries.filter((country) => country.regionId === regionId)
             );
           }
 
           function resetCities(countryId) {
             setFieldValue('cityId', 0);
-            setCityItems(cities.filter((city) => city.countryId === countryId));
+            setFilteredCities(
+              cities.filter((city) => city.countryId === countryId)
+            );
           }
 
-          function handleRegionIdChange(e) {
-            const regionId = e.target.value;
+          function handleRegionIdChange(event) {
+            const regionId = event.target.value;
             setFieldValue('regionId', regionId);
             resetCountries(regionId);
             resetCities(0);
           }
 
-          function handleCountryIdChange(e) {
-            const countryId = e.target.value;
+          function handleCountryIdChange(event) {
+            const countryId = event.target.value;
             setFieldValue('countryId', countryId);
             resetCities(countryId);
           }
@@ -75,7 +77,7 @@ export default function FormikDependentSelectsState({
                   onChange={handleRegionIdChange}
                 >
                   <MenuItem value="0">Select Region...</MenuItem>
-                  {regionItems.map(({ id, name }) => (
+                  {regions?.map(({ id, name }) => (
                     <MenuItem key={id} value={id}>
                       {name}
                     </MenuItem>
@@ -92,7 +94,7 @@ export default function FormikDependentSelectsState({
                   onChange={handleCountryIdChange}
                 >
                   <MenuItem value="0">Select Country...</MenuItem>
-                  {countryItems.map(({ id, name }) => (
+                  {filteredCountries?.map(({ id, name }) => (
                     <MenuItem key={id} value={id}>
                       {name}
                     </MenuItem>
@@ -108,7 +110,7 @@ export default function FormikDependentSelectsState({
                   label="City"
                 >
                   <MenuItem value="0">Select City...</MenuItem>
-                  {cityItems.map(({ id, name }) => (
+                  {filteredCities?.map(({ id, name }) => (
                     <MenuItem key={id} value={id}>
                       {name}
                     </MenuItem>

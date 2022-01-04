@@ -53,7 +53,8 @@ export default function FormikDependentSelectsReactQuery({
   };
 
   function handleSubmit(values, { setSubmitting }) {
-    alert(JSON.stringify(values));
+    const { regionId, countryId, ...finalValues } = values; // We can safely discard regionId and countryId
+    alert(JSON.stringify(finalValues));
     setSubmitting(false);
   }
 
@@ -73,16 +74,16 @@ export default function FormikDependentSelectsReactQuery({
             setFieldValue('cityId', 0);
           }
 
-          function handleRegionIdChange(e) {
+          function handleRegionIdChange(event) {
             resetCities();
             resetCountries();
-            const regionId = e.target.value;
+            const regionId = event.target.value;
             setFieldValue('regionId', regionId);
           }
 
-          function handleCountryIdChange(e) {
+          function handleCountryIdChange(event) {
             resetCities();
-            const countryId = e.target.value;
+            const countryId = event.target.value;
             setFieldValue('countryId', countryId);
           }
 
