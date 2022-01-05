@@ -1,3 +1,5 @@
+import base from '../../middleware/common';
+
 const cities = [
   { id: 1, countryId: 1, name: 'Beijing' },
   { id: 2, countryId: 1, name: 'Shanghai' },
@@ -13,13 +15,8 @@ const cities = [
   { id: 12, countryId: 6, name: 'New York' },
 ];
 
-export default function handler(req, res) {
-  if (req.method === 'GET') {
-    const { countryId } = req.query;
-    const filteredCities = cities.filter(
-      (city) => city.countryId === +countryId
-    );
-    return res.status(200).json(filteredCities);
-  }
-  return res.status(405).end();
-}
+export default base().get((req, res) => {
+  const { countryId } = req.query;
+  const filteredCities = cities.filter((city) => city.countryId === +countryId);
+  return res.status(200).json(filteredCities);
+});
